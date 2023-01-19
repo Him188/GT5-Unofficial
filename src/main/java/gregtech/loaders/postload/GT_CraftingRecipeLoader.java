@@ -3664,7 +3664,7 @@ public class GT_CraftingRecipeLoader implements Runnable {
             new Object[] {"item.CircuitIV", OrePrefixes.circuit.get(Materials.Elite)},
             new Object[] {"item.CircuitLuV", OrePrefixes.circuit.get(Materials.Master)},
             new Object[] {"item.CircuitZPM", OrePrefixes.circuit.get(Materials.Ultimate)},
-            new Object[] {"item.CircuitUV", OrePrefixes.circuit.get(Materials.SuperconductorUV)},
+            new Object[] {"item.CircuitUV", OrePrefixes.circuit.get(Materials.Superconductor)},
             new Object[] {"item.CircuitUHV", OrePrefixes.circuit.get(Materials.Infinite)},
             new Object[] {"item.CircuitUEV", OrePrefixes.circuit.get(Materials.Bio)},
             new Object[] {"item.CircuitUIV", OrePrefixes.circuit.get(Materials.Optical)},
@@ -3684,8 +3684,8 @@ public class GT_CraftingRecipeLoader implements Runnable {
         }
 
         GT_ModHandler.addCraftingRecipe(
-            GT_ModHandler.getModItem(MOD_ID_DC, "item.CircuitLV", 2L),
-            bits_no_remove_buffered,
-            new Object[] {"CC ", "   ", "   ", 'C', OrePrefixes.circuit.get(Materials.Basic)});
+                GT_ModHandler.getModItem(MOD_ID_DC, "item.CircuitLV", 2L),
+                bits_no_remove_buffered,
+                new Object[] {"CC ", "   ", "   ", 'C', OrePrefixes.circuit.get(Materials.Basic)});
     }
 }
