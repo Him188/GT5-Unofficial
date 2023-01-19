@@ -1,5 +1,7 @@
 package gregtech.loaders.postload;
 
+import static gregtech.api.enums.GT_Values.MOD_ID_DC;
+
 import cpw.mods.fml.common.Loader;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
@@ -9,16 +11,15 @@ import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import ic2.core.Ic2Items;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class GT_CraftingRecipeLoader implements Runnable {
     private static final String aTextIron1 = "X X";
@@ -3599,7 +3600,7 @@ public class GT_CraftingRecipeLoader implements Runnable {
                 24);
 
         if (Loader.isModLoaded("bartworks")) {
-            GT_ModHandler.addCraftingRecipe(ItemList.Casing_Advanced_Rhodium_Palladium.get(1L), bits, new Object[]{
+            GT_ModHandler.addCraftingRecipe(ItemList.Casing_Advanced_Rhodium_Palladium.get(1L), bits, new Object[] {
                 "PhP",
                 "PFP",
                 aTextPlateWrench,
@@ -3611,8 +3612,75 @@ public class GT_CraftingRecipeLoader implements Runnable {
         }
 
         GT_Log.out.println("GT_Mod: Adding Circuit Conversion Recipes");
-        GT_ModHandler.addCraftingRecipe(ItemList.Circuit_Quantumcomputer.get(1), bits_no_remove_buffered, new Object[]{
-            " C ", "   ", "   ", 'C', ItemList.Circuit_Crystalprocessor.get(1)
-        });
+
+        // Craft lower
+
+        // String[] dummyCircuits = new String[] {
+        //         "item.CircuitULV",
+        //         "item.CircuitLV",
+        //         "item.CircuitMV",
+        //         "item.CircuitHV",
+        //         "item.CircuitEV",
+        //         "item.CircuitIV",
+        //         "item.CircuitLUV",
+        //         "item.CircuitZPM",
+        //         "item.CircuitUV",
+        //         "item.CircuitUHV",
+        //         "item.CircuitUEV",
+        //         "item.CircuitUIV",
+        //         "item.CircuitUMV",
+        //         "item.CircuitUXV",
+        //         "item.CircuitMAX",
+        // };
+        //
+        // Object[][] compatibilityCircuitsRecipes = new Object[][] {
+        //     new Object[] {
+        //         ItemList.Circuit_Quantumcomputer.get(1),
+        //         OreDictionary.getOres("IV"),
+        //     },
+        // };
+        //
+        // for (Object[] pair : compatibilityCircuitsRecipes) {
+        //     ItemStack output = (ItemStack) pair[0];
+        //     // ItemStack[] inputs = (ItemStack[]) pair[1];
+        //     @SuppressWarnings("unchecked")
+        //     List<ItemStack> ores = (List<ItemStack>) pair[1];
+        //     for (ItemStack input : ores) {
+        //         if (input == output) continue;
+        //         GT_ModHandler.addCraftingRecipe(output, bits_no_remove_buffered, new Object[] {
+        //             "   ", "C  ", "   ", 'C', input
+        //         });
+        //     }
+        // }
+
+        // Craft dummy circuits using normal circuits
+
+        Object[][] dummyCircuitsRecipies = new Object[][] {
+            new Object[] {"item.CircuitULV", OrePrefixes.circuit.get(Materials.Primitive)},
+            new Object[] {"item.CircuitLV", OrePrefixes.circuit.get(Materials.Basic)},
+            new Object[] {"item.CircuitMV", OrePrefixes.circuit.get(Materials.Good)},
+            new Object[] {"item.CircuitHV", OrePrefixes.circuit.get(Materials.Advanced)},
+            new Object[] {"item.CircuitEV", OrePrefixes.circuit.get(Materials.Data)},
+            new Object[] {"item.CircuitIV", OrePrefixes.circuit.get(Materials.Elite)},
+            new Object[] {"item.CircuitLUV", OrePrefixes.circuit.get(Materials.Master)},
+            new Object[] {"item.CircuitZPM", OrePrefixes.circuit.get(Materials.Ultimate)},
+            new Object[] {"item.CircuitUV", OrePrefixes.circuit.get(Materials.SuperconductorUV)},
+            new Object[] {"item.CircuitUHV", OrePrefixes.circuit.get(Materials.Infinite)},
+            new Object[] {"item.CircuitUEV", OrePrefixes.circuit.get(Materials.Bio)},
+            new Object[] {"item.CircuitUIV", OrePrefixes.circuit.get(Materials.Optical)},
+            new Object[] {"item.CircuitUMV", OrePrefixes.circuit.get(Materials.Exotic)},
+            new Object[] {"item.CircuitUXV", OrePrefixes.circuit.get(Materials.Cosmic)},
+            new Object[] {"item.CircuitMAX", OrePrefixes.circuit.get(Materials.Transcendent)},
+        };
+
+        for (Object[] pair : dummyCircuitsRecipies) {
+            String itemName = (String) pair[0];
+            Object item = pair[1];
+
+            GT_ModHandler.addCraftingRecipe(
+                    GT_ModHandler.getModItem(MOD_ID_DC, itemName, 1L),
+                    bits_no_remove_buffered,
+                    new Object[] {" C ", "   ", "   ", 'C', item});
+        }
     }
 }
