@@ -3,28 +3,22 @@ package gregtech.loaders.postload;
 import cpw.mods.fml.common.Loader;
 import gregtech.GT_Mod;
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.ConfigCategories;
-import gregtech.api.enums.Dyes;
-import gregtech.api.enums.GT_Values;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.OreDictNames;
-import gregtech.api.enums.OrePrefixes;
-import gregtech.api.enums.ToolDictNames;
+import gregtech.api.enums.*;
 import gregtech.api.util.GT_Log;
 import gregtech.api.util.GT_ModHandler;
 import gregtech.api.util.GT_OreDictUnificator;
 import gregtech.api.util.GT_Utility;
 import ic2.core.Ic2Items;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GT_CraftingRecipeLoader implements Runnable {
     private static final String aTextIron1 = "X X";
@@ -3605,7 +3599,7 @@ public class GT_CraftingRecipeLoader implements Runnable {
                 24);
 
         if (Loader.isModLoaded("bartworks")) {
-            GT_ModHandler.addCraftingRecipe(ItemList.Casing_Advanced_Rhodium_Palladium.get(1L), bits, new Object[] {
+            GT_ModHandler.addCraftingRecipe(ItemList.Casing_Advanced_Rhodium_Palladium.get(1L), bits, new Object[]{
                 "PhP",
                 "PFP",
                 aTextPlateWrench,
@@ -3615,5 +3609,10 @@ public class GT_CraftingRecipeLoader implements Runnable {
                 OrePrefixes.frameGt.get(Materials.Chrome)
             });
         }
+
+        GT_Log.out.println("GT_Mod: Adding Circuit Conversion Recipes");
+        GT_ModHandler.addCraftingRecipe(ItemList.Circuit_Quantumcomputer.get(1), bits_no_remove_buffered, new Object[]{
+            " C ", "   ", "   ", 'C', ItemList.Circuit_Crystalprocessor.get(1)
+        });
     }
 }

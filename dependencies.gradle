@@ -12,7 +12,8 @@ dependencies {
     compile("com.github.GTNewHorizons:ModularUI:1.0.24:dev")
     compile("com.github.GTNewHorizons:waila:1.5.21:dev")
 
-    compile("net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev")
+//    compile("net.industrial-craft:industrialcraft-2:2.2.828-experimental:dev")
+    compile(fileTree("libs/industrialcraft-2-2.2.828a-experimental.jar"))
 
     compileOnly("com.github.GTNewHorizons:EnderCore:0.2.10:dev") {
         transitive = false
