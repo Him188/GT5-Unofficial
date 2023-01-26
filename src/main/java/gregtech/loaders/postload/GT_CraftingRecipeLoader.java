@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class GT_CraftingRecipeLoader implements Runnable {
     private static final String aTextIron1 = "X X";
@@ -3656,31 +3657,44 @@ public class GT_CraftingRecipeLoader implements Runnable {
         // Craft dummy circuits using normal circuits
 
         Object[][] dummyCircuitsRecipies = new Object[][] {
-            new Object[] {"item.CircuitULV", OrePrefixes.circuit.get(Materials.Primitive)},
-            new Object[] {"item.CircuitLV", OrePrefixes.circuit.get(Materials.Basic)},
-            new Object[] {"item.CircuitMV", OrePrefixes.circuit.get(Materials.Good)},
-            new Object[] {"item.CircuitHV", OrePrefixes.circuit.get(Materials.Advanced)},
-            new Object[] {"item.CircuitEV", OrePrefixes.circuit.get(Materials.Data)},
-            new Object[] {"item.CircuitIV", OrePrefixes.circuit.get(Materials.Elite)},
-            new Object[] {"item.CircuitLuV", OrePrefixes.circuit.get(Materials.Master)},
-            new Object[] {"item.CircuitZPM", OrePrefixes.circuit.get(Materials.Ultimate)},
-            new Object[] {"item.CircuitUV", OrePrefixes.circuit.get(Materials.Superconductor)},
-            new Object[] {"item.CircuitUHV", OrePrefixes.circuit.get(Materials.Infinite)},
-            new Object[] {"item.CircuitUEV", OrePrefixes.circuit.get(Materials.Bio)},
-            new Object[] {"item.CircuitUIV", OrePrefixes.circuit.get(Materials.Optical)},
-            new Object[] {"item.CircuitUMV", OrePrefixes.circuit.get(Materials.Exotic)},
-            new Object[] {"item.CircuitUXV", OrePrefixes.circuit.get(Materials.Cosmic)},
-            new Object[] {"item.CircuitMAX", OrePrefixes.circuit.get(Materials.Transcendent)},
+            new Object[] {"item.CircuitULV", "ULV", OrePrefixes.circuit.get(Materials.Primitive)},
+            // new Object[] {"item.CircuitLV", OrePrefixes.circuit.get(Materials.Basic)},
+            new Object[] {"item.CircuitMV", "MV", OrePrefixes.circuit.get(Materials.Good)},
+            new Object[] {"item.CircuitHV", "HV", OrePrefixes.circuit.get(Materials.Advanced)},
+            new Object[] {"item.CircuitEV", "EV", OrePrefixes.circuit.get(Materials.Data)},
+            new Object[] {"item.CircuitIV", "IV", OrePrefixes.circuit.get(Materials.Elite)},
+            new Object[] {"item.CircuitLuV", "LuV", OrePrefixes.circuit.get(Materials.Master)},
+            new Object[] {"item.CircuitZPM", "ZPM", OrePrefixes.circuit.get(Materials.Ultimate)},
+            new Object[] {"item.CircuitUV", "UV", OrePrefixes.circuit.get(Materials.Superconductor)},
+            new Object[] {"item.CircuitUHV", "UHV", OrePrefixes.circuit.get(Materials.Infinite)},
+            new Object[] {"item.CircuitUEV", "UEV", OrePrefixes.circuit.get(Materials.Bio)},
+            new Object[] {"item.CircuitUIV", "UIV", OrePrefixes.circuit.get(Materials.Optical)},
+            new Object[] {"item.CircuitUMV", "UMV", OrePrefixes.circuit.get(Materials.Exotic)},
+            new Object[] {"item.CircuitUXV", "UXV", OrePrefixes.circuit.get(Materials.Cosmic)},
+            new Object[] {"item.CircuitMAX", "MAX", OrePrefixes.circuit.get(Materials.Transcendent)},
         };
+
+        final List<ItemList> circuits = Arrays.stream(ItemList.values())
+            .filter(item -> item.name().toLowerCase().startsWith("Circuit_".toLowerCase()))
+            .collect(Collectors.toList());
+
 
         for (Object[] pair : dummyCircuitsRecipies) {
             String itemName = (String) pair[0];
-            Object item = pair[1];
+            String oreName = (String) pair[1];
+            // Object item = pair[2];
 
-            GT_ModHandler.addCraftingRecipe(
-                    GT_ModHandler.getModItem(MOD_ID_DC, itemName, 1L),
-                    bits_no_remove_buffered,
-                    new Object[] {" C ", "   ", "   ", 'C', item});
+            final ItemStack dummyItem = GT_ModHandler.getModItem(MOD_ID_DC, itemName, 1L);
+
+            circuits.stream().filter(it -> Arrays.stream(OreDictionary.getOreIDs(it.getInternalStack_unsafe()))
+                .mapToObj(OreDictionary::getOreName)
+                .filter(it -> it != dummyItem)
+                .anyMatch())
+
+            OreDictionary.getOres(oreName).stream()
+                    .filter(itemStack -> !itemStack.getUnlocalizedName().equals(dummyItem.getUnlocalizedName()))
+                    .forEach(itemStack -> GT_ModHandler.addCraftingRecipe(
+                            dummyItem, bits_no_remove_buffered, new Object[] {" C ", "   ", "   ", 'C', itemStack}));
         }
 
         GT_ModHandler.addCraftingRecipe(
