@@ -2120,5 +2120,102 @@ public class GT_CraftingRecipeLoader implements Runnable {
                     new Object[] { "s ", " P", 'P', slabWoodFireproof });
             }
         }
+
+
+
+        GT_Log.out.println("GT_Mod: Adding Circuit Conversion Recipes");
+
+        // Craft lower
+
+//         String[] dummyCircuits = new String[] {
+//                 "item.CircuitULV",
+//                 "item.CircuitLV",
+//                 "item.CircuitMV",
+//                 "item.CircuitHV",
+//                 "item.CircuitEV",
+//                 "item.CircuitIV",
+//                 "item.CircuitLUV",
+//                 "item.CircuitZPM",
+//                 "item.CircuitUV",
+//                 "item.CircuitUHV",
+//                 "item.CircuitUEV",
+//                 "item.CircuitUIV",
+//                 "item.CircuitUMV",
+//                 "item.CircuitUXV",
+//                 "item.CircuitMAX",
+//         };
+//
+//         Object[][] compatibilityCircuitsRecipes = new Object[][] {
+//             new Object[] {
+//                 ItemList.Circuit_Quantumcomputer.get(1),
+//                 OreDictionary.getOres("IV"),
+//             },
+//         };
+//
+//         for (Object[] pair : compatibilityCircuitsRecipes) {
+//             ItemStack output = (ItemStack) pair[0];
+//             // ItemStack[] inputs = (ItemStack[]) pair[1];
+//             @SuppressWarnings("unchecked")
+//             List<ItemStack> ores = (List<ItemStack>) pair[1];
+//             for (ItemStack input : ores) {
+//                 if (input == output) continue;
+//                 GT_ModHandler.addCraftingRecipe(output, bits_no_remove_buffered, new Object[] {
+//                     "   ", "C  ", "   ", 'C', input
+//                 });
+//             }
+//         }
+
+        // Craft dummy circuits using normal circuits
+
+        Object[][] dummyCircuitsRecipies = new Object[][] {
+            new Object[] {"item.CircuitULV", OrePrefixes.circuit.get(Materials.Primitive)},
+            new Object[] {"item.CircuitLV", OrePrefixes.circuit.get(Materials.Basic)},
+            new Object[] {"item.CircuitMV", OrePrefixes.circuit.get(Materials.Good)},
+            new Object[] {"item.CircuitHV", OrePrefixes.circuit.get(Materials.Advanced)},
+            new Object[] {"item.CircuitEV", OrePrefixes.circuit.get(Materials.Data)},
+            new Object[] {"item.CircuitIV", OrePrefixes.circuit.get(Materials.Elite)},
+            new Object[] {"item.CircuitLuV", OrePrefixes.circuit.get(Materials.Master)},
+            new Object[] {"item.CircuitZPM", OrePrefixes.circuit.get(Materials.Ultimate)},
+            new Object[] {"item.CircuitUV", OrePrefixes.circuit.get(Materials.Superconductor)},
+            new Object[] {"item.CircuitUHV", OrePrefixes.circuit.get(Materials.Infinite)},
+            new Object[] {"item.CircuitUEV", OrePrefixes.circuit.get(Materials.Bio)},
+            new Object[] {"item.CircuitUIV", OrePrefixes.circuit.get(Materials.Optical)},
+            new Object[] {"item.CircuitUMV", OrePrefixes.circuit.get(Materials.Exotic)},
+            new Object[] {"item.CircuitUXV", OrePrefixes.circuit.get(Materials.Cosmic)},
+            new Object[] {"item.CircuitMAX", OrePrefixes.circuit.get(Materials.Transcendent)},
+        };
+
+        for (Object[] pair : dummyCircuitsRecipies) {
+            String itemName = (String) pair[0];
+            Object item = pair[1];
+
+            GT_ModHandler.addCraftingRecipe(
+                GT_ModHandler.getModItem(MOD_ID_DC, itemName, 1L),
+                bits_no_remove_buffered,
+                new Object[] {" C ", " S ", "   ", 'C', item, 'S', "dustStone"});
+        }
+
+        // 用高级配方制作低级配方的
+
+//        List<Object[]> circuitMappings = new ArrayList<Object[]>(){{
+//            // LUV
+//            ItemList.Circuit_Quantummainframe
+//            add(new Object[] {OrePrefixes.circuit.get(Materials.Primitive), OrePrefixes.circuit.get(Materials.Basic)});
+//        }};
+//
+//
+//        List<Object[]> newToOldRecipies = new ArrayList<Object[]>(){{
+//            add(new Object[] {OrePrefixes.circuit.get(Materials.Primitive), OrePrefixes.circuit.get(Materials.Basic)});
+//        }};
+//
+//        for (Object[] pair : newToOldRecipies) {
+//            String itemName = (String) pair[0];
+//            Object item = pair[1];
+//
+//            GT_ModHandler.addCraftingRecipe(
+//                GT_ModHandler.getModItem(MOD_ID_DC, itemName, 1L),
+//                bits_no_remove_buffered,
+//                new Object[] {"  C", " S ", "   ", 'C', item, 'S', "dustStone"});
+//        }
     }
 }
